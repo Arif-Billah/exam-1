@@ -1,4 +1,4 @@
-<script setup>
+<!-- <script setup>
 import { ref } from 'vue';
 
 const tasks = ref([{
@@ -27,13 +27,47 @@ const tasks = ref([{
       taskName.value= x;
       taskTime.value = y;
       tasks.value.push({
-          name: taskName,
-          time: taskTime,
+          name: taskName.value,
+          time: taskTime.value,
         });
     
   
   }
     
+</script> -->
+<script setup>
+import { ref } from 'vue';
+
+const tasks = ref([
+    { name: 'Task 1', time: 30 },
+    { name: 'Task 2', time: 40 },
+    { name: 'Task 3', time: 60 },
+    { name: 'Task 4', time: 45 },
+    { name: 'Task 5', time: 50 }
+]);
+
+function removeTask(index) {
+    tasks.value.splice(index, 1);
+}
+
+const name = ref('');
+const time = ref('');
+
+function newTaskModal() {
+    const existingTaskIndex = tasks.value.findIndex(task => task.name === name.value);
+
+    if (existingTaskIndex !== -1) {
+        // Update existing task
+        tasks.value[existingTaskIndex].time = time.value;
+    } else {
+        // Add new task
+        tasks.value.push({ name: name.value, time: time.value });
+    }
+
+    // Reset form fields
+    name.value = '';
+    time.value = '';
+}
 </script>
 <template>
 
@@ -60,7 +94,7 @@ const tasks = ref([{
 </button> -->
 <div class="flex items-center justify-center mt-6">
   <button data-modal-target="crud-modal" data-modal-toggle="crud-modal" type="button" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
-    Add Task
+    Update Task
   </button>
 </div>
 
@@ -109,7 +143,7 @@ const tasks = ref([{
                 </div>
                 <button @click.prevent="newTaskModal(name,time)" type="button" data-modal-hide="crud-modal" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-                    Add New Task
+                    Update Task
                 </button>
             </form>
         </div>
